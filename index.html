@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://unpkg.com/axios@latest"></script>
+  <style>
+    @import url('https://rsms.me/inter/inter.css');
+
+    * {
+      font-family: inherit;
+      margin: 0;
+      padding: 0;
+      margin-top: 0.4em;
+    }
+
+    body {
+      font-family: 'Inter', 'Helvetica', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      height: 100vh;
+    }
+
+    input {
+      width: 38em;
+      padding: 0.66em;
+      border-radius: 0.4em;
+      border: 2px solid black;
+    }
+
+    input:focus {
+      outline: none;
+    }
+
+    button {
+      padding: 0.6em;
+      width: 7em;
+      border-radius: 0.4em;
+      border: 2px solid black;
+      background: inherit;
+      cursor: pointer;
+    }
+
+    button:is(:focus, :hover) {
+      background: #f7f7f7;
+    }
+
+    button:active {
+      background: #eee;
+    }
+
+    a {
+      color: #25d;
+      text-decoration: none;
+    }
+
+    a:is(:hover, :focus) {
+      text-decoration: underline;
+    }
+  </style>
+  <title>Link Shortener</title>
+</head>
+<body>
+  <input type="text" id="textbox" placeholder="type your long URL">
+  <input type="text" id="id" placeholder="type the short url id (optional)">
+  <button onclick="generate();">generate</button>
+  <script>
+    function randomId() {
+      const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+      let result = '';
+
+      for(let i = 0; i < 6; i++) {
+        const char = chars[Math.round(Math.random() * chars.length)];
+        result+= char;
+      }
+      return result;
+    }
+
+    function generate() {
+      const link = document.getElementById('textbox').value;
+      const id = document.getElementById('id').value || randomId();
+      axios.post(`/${id}?url=${link}`)
+      document.body.innerHTML+= `<p>generated at <a href="${location}${id}">${location}${id}</a></p>`;
+    }
+  </script>
+</body>
+</html>
